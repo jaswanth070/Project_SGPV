@@ -8,7 +8,7 @@ from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup as bs
 
 
-pin = 0
+pin = 1
 lst = {}
 
 data = {"Pin_No": [],
@@ -22,16 +22,16 @@ driver = webdriver.Chrome(options=chrome_options)
 driver.get("https://sbtetuat.ap.gov.in/APSBTET/results.do")  
 while pin<=198:
     try:
-        # if pin in [3,33,56,67]:
-        #     pin = pin + 1
-        #     continue
+        if pin in [6,12]:
+            pin = pin + 1
+            continue
         
         lst.clear()
         driver.find_element('name',"aadhar1").send_keys((Keys.CONTROL, "a"))  
         driver.find_element('name',"aadhar1").send_keys(str(f"21596-M-{pin:03d}")) 
 
         s1 = Select(driver.find_element('name','grade2'))
-        s1.select_by_value('1YR')
+        s1.select_by_value('4SEM')
 
         time.sleep(1) 
         # driver.find_element(By.CLASS_NAME,"btn btn-primary")
@@ -61,10 +61,10 @@ while pin<=198:
 
     except:
         df = pd.DataFrame.from_dict(data)
-        df.to_csv(r'cme_1.csv',index=False,header=True)
+        df.to_csv(r'gana_std_data.csv',index=False,header=True)
         exit()
 
 driver.close()  
 # print(data)
 df = pd.DataFrame.from_dict(data)
-df.to_csv(r'Mechanical/gana_syd_data.csv',index=False,header=True)
+df.to_csv(r'gana_std_data.csv',index=False,header=True)
