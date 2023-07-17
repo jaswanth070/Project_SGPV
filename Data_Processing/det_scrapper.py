@@ -8,7 +8,7 @@ from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup as bs
 
 
-pin = 1
+pins =  [13,15,38,51]
 lst = {}
 
 data = {"Pin_No": [],
@@ -20,18 +20,18 @@ chrome_options.add_experimental_option("detach", True)
 
 driver = webdriver.Chrome(options=chrome_options)
 driver.get("https://sbtetuat.ap.gov.in/APSBTET/results.do")  
-while pin<=198:
+for pin in pins:
     try:
-        if pin in [6,12,13,15,18,20,21,26,31,36,38,39,43,44,47,51,60,66]:
-            pin = pin + 1
-            continue
+        # if pin in [6,12,13,15,18,20,21,26,31,36,38,39,43,44,47,51,60,66]:
+        #     pin = pin + 1
+        #     continue
         
         lst.clear()
         driver.find_element('name',"aadhar1").send_keys((Keys.CONTROL, "a"))  
         driver.find_element('name',"aadhar1").send_keys(str(f"21596-M-{pin:03d}")) 
 
         s1 = Select(driver.find_element('name','grade2'))
-        s1.select_by_value('4SEM')
+        s1.select_by_value('1YR')
 
         # time.sleep(1) 
         # driver.find_element(By.CLASS_NAME,"btn btn-primary")
@@ -40,6 +40,10 @@ while pin<=198:
         html = driver.page_source
         soup = bs(html,'html5lib')
         tags = soup.findAll('td')
+
+        if(len(tags) == 0):
+            pin += 1
+            continue
 
         # time.sleep(1)
         # name_std = soup.findAll('font',attrs={'color':'blue'})
