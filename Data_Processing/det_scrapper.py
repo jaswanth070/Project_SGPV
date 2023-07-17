@@ -15,20 +15,28 @@ data = {"Pin_No": [],
         "Name":[],
 }
 
+ineligible = []
+
 chrome_options = Options() 
 chrome_options.add_experimental_option("detach", True)
 
 driver = webdriver.Chrome(options=chrome_options)
 driver.get("https://sbtetuat.ap.gov.in/APSBTET/results.do")  
+<<<<<<< Updated upstream
 for pin in pins:
     try:
         # if pin in [6,12,13,15,18,20,21,26,31,36,38,39,43,44,47,51,60,66]:
+=======
+while pin<=240:
+    try:
+        # if pin in [0,1,9,12,22,23]:
+>>>>>>> Stashed changes
         #     pin = pin + 1
         #     continue
         
         lst.clear()
         driver.find_element('name',"aadhar1").send_keys((Keys.CONTROL, "a"))  
-        driver.find_element('name',"aadhar1").send_keys(str(f"21596-M-{pin:03d}")) 
+        driver.find_element('name',"aadhar1").send_keys(str(f"21146-M-{pin:03d}")) 
 
         s1 = Select(driver.find_element('name','grade2'))
         s1.select_by_value('1YR')
@@ -40,9 +48,15 @@ for pin in pins:
         html = driver.page_source
         soup = bs(html,'html5lib')
         tags = soup.findAll('td')
+        # print(tags)
 
         if(len(tags) == 0):
+<<<<<<< Updated upstream
             pin += 1
+=======
+            ineligible.append(pin)
+            pin = pin + 1
+>>>>>>> Stashed changes
             continue
 
         # time.sleep(1)
@@ -63,12 +77,15 @@ for pin in pins:
 
         pin = pin + 1 
 
+
     except:
         df = pd.DataFrame.from_dict(data)
         df.to_csv(r'gana_std_data.csv',index=False,header=True)
         exit()
+        print(ineligible)
 
 driver.close()  
 # print(data)
 df = pd.DataFrame.from_dict(data)
 df.to_csv(r'gana_std_data.csv',index=False,header=True)
+print(ineligible)
