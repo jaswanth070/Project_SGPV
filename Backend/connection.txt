@@ -1,0 +1,9 @@
+
+
+jaswanth
+DB_NAME=sgpv
+DB_USER=o0bpqm45z5eknbquc5p4
+DB_PASSWORD=pscale_pw_qKwTxFrmuzQJNdgmiA1Z81uMEBYn9FIeI6bpMjCr9Sj
+DB_HOST=aws.connect.psdb.cloud
+DB_PORT=3306
+MYSQL_ATTR_SSL_CA=/etc/ssl/certs/ca-certificates.crt
